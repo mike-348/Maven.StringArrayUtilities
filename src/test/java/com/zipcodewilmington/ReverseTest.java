@@ -8,8 +8,8 @@ public class ReverseTest {
 
     @Test
     public void testReverse1() {
-        String[] array = {"the", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"};
-        String[] expected = {"dog", "lazy", "the", "over", "jumps", "fox", "brown", "quick", "the"};
+        String[] array = {"the jar", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"};
+        String[] expected = {"dog", "lazy", "the", "over", "jumps", "fox", "brown", "quick", "the jar"};
         String[] actual = StringArrayUtils.reverse(array);
         Assert.assertEquals(expected, actual);
     }
