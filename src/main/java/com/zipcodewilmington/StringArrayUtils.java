@@ -2,6 +2,7 @@ package com.zipcodewilmington;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.sun.xml.internal.fastinfoset.util.StringArray;
+import sun.security.util.ArrayUtil;
 
 import java.sql.Array;
 import java.util.*;
@@ -17,7 +18,7 @@ public class StringArrayUtils {
      */ // TODO
     public static String getFirstElement(String[] array) {
         return array[0];
-    }
+    } //passed
 
     /**
      * @param array array of String objects
@@ -25,7 +26,7 @@ public class StringArrayUtils {
      */
     public static String getSecondElement(String[] array) {
         return array[1];
-    }
+    } //passed
 
     /**
      * @param array array of String objects
@@ -33,7 +34,7 @@ public class StringArrayUtils {
      */ // TODO
     public static String getLastElement(String[] array) {
         return array[array.length - 1];
-    }
+    } //passed
 
     /**
      * @param array array of String objects
@@ -41,7 +42,7 @@ public class StringArrayUtils {
      */ // TODO
     public static String getSecondToLastElement(String[] array) {
         return array[array.length - 2];
-    }
+    } //passed
 
     /**
      * @param array array of String objects
@@ -57,7 +58,7 @@ public class StringArrayUtils {
             }
         }
         return contains;
-    }
+    } //passed
 
     /**
      * @param array of String objects
@@ -79,7 +80,7 @@ public class StringArrayUtils {
 //    arrList.addAll(Arrays.asList(array));
 //    Collections.reverse(arrList);
 //    return arrList.toArray(new String[arrList.size()]);
-    }
+    } //passed
 
     /**
      * @param array array of String objects
@@ -95,72 +96,20 @@ public class StringArrayUtils {
             return true;
         }
         return false;
-    }
+    } //passed
 
     /**
      * @param array array of String objects
      * @return true if each letter in the alphabet has been used in the array
      */ // TODO
     public static boolean isPangramic(String[] array) {
-//        StringBuilder sb = new StringBuilder();
-//        for (char c = 'A'; c <= 'Z'; c++) {
-//            sb.append(c);
-//        }
-//        String az = sb.toString();
-//        az.toLowerCase();
-//        boolean pangram = false;
-//        char[] ch = new char[az.length()];
-//        for (int i = 0; i < az.length(); i++) {
-//            ch[i] = az.charAt(i);
-//        }
-//        String[] strarr = new String[ch.length];
-//        for (String element : array) {
-//            if (StringArrayUtils.contains(strarr, az)) {
-//                pangram = true;
-//            };
-//            pangram = false;
-//        }
-//        return pangram;
-//    }
-// I DONT GET THIS ONE UGGH
-//        String az = "Abcdefghijklmnopqrstuvwxyz";
-//        StringBuilder sb = new StringBuilder();
-//        for (String elements : array) {
-//            sb.append(elements);
-//        }
-//        String s = sb.toString();
-//        s.toLowerCase();
-//
-//        System.out.print(s);
-//
-//
-//        return true;
+        String str = Arrays.toString(array);
+        String lowerCase = str.toLowerCase();
+        System.out.print(lowerCase);
+        int count = (int) lowerCase.chars().filter(i -> i >= 'a' && i <= 'z').distinct().count();
 
-//        String str = "Abcdefghijklmnopqrstuvwxyz";
-//        String s = String.join("",array);
-//        s = s.replaceAll("\\s","");
-//        s = s.toLowerCase();
-//        char charArray[] = s.toCharArray();
-//        Arrays.sort(charArray);
-//        s = new String(charArray);
-//        System.out.print(s);
-//        System.out.print(str);
-//        if (str.equalsIgnoreCase(s)) {
-//            return true;
-//        }
-//        return false;
-
-
-//        joinedString.trim();                                    // get rid of spaces
-//        char charArray[] = str.toCharArray();
-//        Arrays.sort(charArray);                                 // alphabetize
-//        String sorted = new String(charArray);
-//        if (sorted.equalsIgnoreCase(str)) {
-//            return true;
-//        }
-        return false;
-    }
-
+        return (count == 26);
+    } //passed
     /**
      * @param array array of String objects
      * @param value value to check array for
@@ -168,14 +117,15 @@ public class StringArrayUtils {
      */ // TODO
     public static int getNumberOfOccurrences(String[] array, String value) {
         int count = 0;
-        for (String element : array) {
-            if (element == value) {
+        int arrLen = array.length;
+        for (int i = 0; i < arrLen; i++) {
+            if (array[i].equals(value)) {
                 count++;
             }
-            return count;
         }
         return count;
-    }
+
+    } //passed
 
 
     /**
@@ -184,24 +134,68 @@ public class StringArrayUtils {
      * @return array with identical contents excluding values of `value`
      */ // TODO
     public static String[] removeValue(String[] array, String valueToRemove) {
-        return null;
-    }
+
+//        String[] newArr = null;
+//
+//        for (int i = 0; i < array.length; i++) {
+//            if (array[i] == valueToRemove) {
+//                newArr = new String[array.length-1];
+//                for (int index = 0; index < i; index++) {
+//                    newArr[index] = array[index];
+//                }
+//                for (int j = i; j < array.length - 1; j++) {
+//                    newArr[j] = array[j + 1];
+//                }
+//                break;
+//            }
+//            System.out.print(newArr);
+//        }
+//
+//        return newArr;
+//    } //also works (no ArrayList)
+        ArrayList<String> arrList = new ArrayList<>();
+        arrList.addAll(Arrays.asList(array));
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == valueToRemove) {
+                arrList.remove(arrList.indexOf(valueToRemove));
+            }
+        }
+
+        return arrList.toArray(new String[arrList.size()]);
+    } //passed
 
     /**
      * @param array array of chars
      * @return array of Strings with consecutive duplicates removes
      */ // TODO
     public static String[] removeConsecutiveDuplicates(String[] array) {
-        return null;
-    }
+        ArrayList<String> arrList = new ArrayList<>();
+        arrList.add(array[0]);
+        for(int i = 1; i < array.length; i++) {
+            if (array[i-1] != array[i]) {
+                arrList.add(array[i]);
+            }
+        }
+        return arrList.toArray(new String[arrList.size()]);
+    } //passed
 
     /**
      * @param array array of chars
      * @return array of Strings with each consecutive duplicate occurrence concatenated as a single string in an array of Strings
      */ // TODO
     public static String[] packConsecutiveDuplicates(String[] array) {
-        return null;
+        ArrayList<String> arrList = new ArrayList<>();
+        arrList.addAll(Arrays.asList(array));
+        for(int i = 0; i > array.length; i++) {
+            while (array[i] == array[i+1]) {
+                if (true) {
+                    arrList.add(array[i]+array[i+1]);
+                    break;
+                }
+            }
+        }
+        return arrList.toArray(new String[arrList.size()]);
     }
 
 
-    }
+}
